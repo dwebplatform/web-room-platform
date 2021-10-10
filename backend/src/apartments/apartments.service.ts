@@ -1,27 +1,22 @@
 import { Injectable,HttpException, HttpStatus } from '@nestjs/common';
 import { InjectConnection } from 'nest-knexjs';
 import { Knex } from 'knex';
-
-const knexPopulate = require('knex-populate');
-
-function groupBy(list, keyGetter) {
-		    const map = new Map();
-		    list.forEach((item) => {
-		         const key = keyGetter(item);
-		         const collection = map.get(key);
-		         if (!collection) {
-		             map.set(key, [item]);
-		         } else {
-		             collection.push(item);
-		         }
-		    });
-		    return map;
-		}
+import { apartmentToDto } from './dto/apartment.dto';
+import { UpdateApartmentDescriptionDto } from './dto/update-apartment-description.dto';
 
 
 @Injectable()
 export class ApartmentsService {
-	constructor(@InjectConnection() private readonly knex: Knex) { }
+	constructor(@InjectConnection() private readonly knex: Knex) {}
+	
+	async updateDescription(updateApartmentDescriptionDto:UpdateApartmentDescriptionDto){
+		const apartmentId = await this.knex('apartments').where({id: updateApartmentDescriptionDto.id}).update({
+			description: updateApartmentDescriptionDto.description
+		});
+		const apartment =  await this.knex('apartments').where({id:apartmentId}).first();
+		return {id:apartment.id, description: apartment.description};
+	}
+
 	async findOne(apartmentId: string){
 		const apartment =  await this.knex.table('apartments').where('id','=',apartmentId).first();
 		if(!apartment){
@@ -29,15 +24,17 @@ export class ApartmentsService {
 		}
 		
 		const chars = await this.knex.select(
-			'characteristics.id as charId','characteristics.key_name', 'a.id as apartmentId')
+			'characteristics.id as charId','characteristics.key_name',
+			'characteristics.type as type',
+			'characteristics.ARRAY_VALUE as ARRAY_VALUE',
+			'characteristics.STRING_VALUE as STRING_VALUE',
+			'characteristics.BOOL_VALUE as BOOL_VALUE',
+			'a.id as apartmentId')
 		.from('apartments as a')
 		.leftJoin('apartments_characteristics','a.id','=','apartments_characteristics.apartment_id')
 		.leftJoin('characteristics','apartments_characteristics.characteristic_id','=','characteristics.id')
 		.where('a.id','=',apartmentId).andWhereNot('characteristics.id',null);
 
-		return {
-			...apartment,
-			chars
-		};
+		return apartmentToDto({...apartment,chars});
 	}
 }

@@ -198,10 +198,7 @@ return (<OrderDetailWrapper>
       </FormControl>
       
       <OrderBottom>
-      <StatusChangeButton variant="contained" color="info"
-      onClick={(e)=>{
-        handleChangeStatus();
-      }}
+      <StatusChangeButton variant="contained" color="info" onClick={(e)=>handleChangeStatus()}
       >Сменить статус </StatusChangeButton>
       <Button variant="outlined" color="success">
           <Typography sx={{ color: '#000', fontSize: '14px', fontWeight: '600' }}>Итого:</Typography>

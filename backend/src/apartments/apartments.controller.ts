@@ -1,10 +1,8 @@
-import { Controller,Post,Get,Param, UseInterceptors,  UploadedFile } from '@nestjs/common';
+import { Controller,Body,Post,Get,Param, UseInterceptors,  UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from "@nestjs/platform-express";
-import {diskStorage} from 'multer';
 
 import {ApartmentsService} from './apartments.service';
-
-
+import { UpdateApartmentDescriptionDto } from './dto/update-apartment-description.dto';
 
 
 import {storage} from './utils/apartmentStorage';
@@ -28,5 +26,10 @@ export class ApartmentsController {
     	msg:"ok"
     };
   }
+	@Post('/change-description')
+	async changeDescription(@Body() updateApartmentDescriptionDto: UpdateApartmentDescriptionDto){
+		return await this.apartmentsService.updateDescription(updateApartmentDescriptionDto);
+	}
 
+	
 }

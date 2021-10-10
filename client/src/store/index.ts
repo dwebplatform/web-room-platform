@@ -1,11 +1,15 @@
-import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { orderDetailReducer } from "../reducers/currentOrderReducer";
 import { orderReducer } from './../reducers/orderReducer';
+import { apartmentReducer } from './../reducers/currentApartmentReducer';
+import { charEditReducer } from "../reducers/charEditReducer";
 
 
 const rootReducer = combineReducers({
   orders: orderReducer,
-  orderDetail: orderDetailReducer
+  charEdit: charEditReducer,
+  orderDetail: orderDetailReducer,
+  apartmentDetail: apartmentReducer
 });
 export type RootState = ReturnType<typeof rootReducer>
 

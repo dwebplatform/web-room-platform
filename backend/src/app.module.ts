@@ -9,13 +9,12 @@ import { ApartmentsModule } from './apartments/apartments.module';
 
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
+import { CharsModule } from './chars/chars.module';
 
 
 @Module({
   imports: [
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, './public'),   // <-- path to the static files
-    // }),
+  
     KnexModule.forRoot({
       config: {
         client: 'mysql',
@@ -30,7 +29,8 @@ import { join } from 'path';
     }),
     ProductsModule,
     OrdersModule,
-    ApartmentsModule,    
+    ApartmentsModule,
+    CharsModule,    
     // UserModule,
   ],
   controllers: [AppController],

@@ -6,9 +6,6 @@ import { apiUrl } from "../configs";
 import { IOrder } from "../interfaces/order-interface";
 
 
-interface IMoreOrder  extends IOrder{
-  newState: string;
-}
 export const ChangeOrderStatus= createAsyncThunk(
   "orders/changeStatus",
   async ({id, newStatus}:{
