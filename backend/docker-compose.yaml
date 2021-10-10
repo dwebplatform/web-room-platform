@@ -1,0 +1,26 @@
+version: "3"
+services:
+  postgres:
+    container_name: postgres_test
+    image: postgres:latest
+    networks:
+      - server-net
+    ports:
+      - "5432:5432"
+    env_file:
+      - docker.env
+
+  pgadmin:
+    links:
+      - postgres:postgres
+    container_name: pgadmin
+    image: adminer
+    networks:
+      - server-net
+    ports:
+      - "8080:8080"
+    env_file:
+      - docker.env
+networks:
+  server-net:
+    driver: bridge
