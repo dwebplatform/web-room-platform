@@ -21,11 +21,11 @@ export class CharsService {
     return chars.map(charToDto);
   }
   async create(createCharDto:CreateCharDto){
-    const type = createCharDto.charVariant.split('_')[0];
+    
     return this.knex('characteristics').insert({
       key_name: createCharDto.keyName,
-      type: type,
-      [createCharDto.charVariant]: createCharDto.charValue
+      type: createCharDto.type,
+      [createCharDto.charVariant]: createCharDto.char
     });
   }
 }

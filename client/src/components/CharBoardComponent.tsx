@@ -99,8 +99,8 @@ export const CharBoardComponent = () => {
             {chars.map((char) => {
               return <MenuItem key={char.key_name}
                 onClick={(e) => {
-                  setCharsData({ keyName: char.key_name, isReseted: true });
                   dispatch(resetChars());
+                  setCharsData((prevData:any)=>({...prevData, keyName: char.key_name, isReseted: true }));
                 }}
               >{char.key_name}</MenuItem>
             })}

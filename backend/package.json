@@ -30,6 +30,7 @@
     "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^8.0.2",
     "@types/knex": "^0.16.1",
+    "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^8.6.0",
     "knex": "^0.95.11",

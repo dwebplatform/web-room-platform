@@ -10,6 +10,7 @@ import { ApartmentsModule } from './apartments/apartments.module';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
 import { CharsModule } from './chars/chars.module';
+import { TestworkModule } from './testwork/testwork.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { CharsModule } from './chars/chars.module';
     ProductsModule,
     OrdersModule,
     ApartmentsModule,
-    CharsModule,    
+    CharsModule,
+    TestworkModule,    
     // UserModule,
   ],
   controllers: [AppController],

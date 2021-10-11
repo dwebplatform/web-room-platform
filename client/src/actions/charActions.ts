@@ -14,7 +14,7 @@ export const CreateCharAction = createAsyncThunk(
     return await axios.post(`${apiUrl}/chars/create`,{
         keyName, 
         charVariant,
-        charValue: charVariant ==="ARRAY_VALUE" ? JSON.stringify(charValue): charValue
+        charValue
     }) ;
   }
 );
