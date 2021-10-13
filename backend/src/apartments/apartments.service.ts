@@ -12,9 +12,11 @@ export class ApartmentsService {
 	
 	async saveImages(saveImageApartmentDto:SaveImageApartmentDto){
 		try{
-			let updatedId =  await this.knex.table('apartments').update({images:saveImageApartmentDto.images}).where({id:saveImageApartmentDto.id});
+			let updatedId =  await this.knex.table('apartments').update({images:saveImageApartmentDto.insertedImages}).where({id:saveImageApartmentDto.id});
 			return await this.knex.table('apartments').where('id',updatedId).first();
 		} catch(e){
+			throw new HttpException('Не удалось обновить изображения для данной квартиры', HttpStatus.BAD_REQUEST);
+			
 		}
 	}
 

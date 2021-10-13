@@ -38,11 +38,8 @@ export class ApartmentsController {
 
   @Post('/save-images-to-apartment')
   async saveImagesToApartment(@Body() saveImageApartmentDto: SaveImageApartmentDto ){
-    try{
       return await this.apartmentsService.saveImages(saveImageApartmentDto);
-    } catch(err){
-      throw new HttpException('Не удалось сохранить изображения для данной квартиры', HttpStatus.BAD_REQUEST);
-    }
+    
   }
 	
 }
