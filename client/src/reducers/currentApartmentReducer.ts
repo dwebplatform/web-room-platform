@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IApartment } from "../interfaces/apartment-interface";
-import { ChangeApartmentDescription, GetApartmentByIdAction } from './../actions/apartmentActions';
+import { ChangeApartmentDescription, GetApartmentByIdAction, UploadApartmentFilesAction } from './../actions/apartmentActions';
 
 
 export const initialState = {
@@ -13,7 +13,12 @@ export const apartmentSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    
+    builder.addCase(UploadApartmentFilesAction.fulfilled,(state,{payload})=>{
+      
+    });
+    builder.addCase(UploadApartmentFilesAction.rejected,(state,{payload})=>{
+
+    });
     builder.addCase(ChangeApartmentDescription.fulfilled,(state,{payload})=>{
       if(!state.apartment){
         return;

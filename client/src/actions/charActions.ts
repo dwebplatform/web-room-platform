@@ -15,7 +15,7 @@ export const CreateCharAction = createAsyncThunk(
         keyName, 
         charVariant,
         charValue
-    }) ;
+    });
   }
 );
 export const GetCharsAction = createAsyncThunk(
@@ -26,6 +26,6 @@ export const GetCharsAction = createAsyncThunk(
       reqStr+=`?charKeyName=${charKeyName}`;
     }
     const resp =  await axios.get(reqStr) as AxiosResponse<IChar[]>;
-    console.log(resp)
+    
     return resp;
   });

@@ -10,13 +10,16 @@ import TextField from "@mui/material/TextField";
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 import {CharListComponent} from './CharListComponent';
 
 import { RootState } from '../store';
-import { ChangeApartmentDescription, GetApartmentByIdAction } from './../actions/apartmentActions';
+import { ChangeApartmentDescription, GetApartmentByIdAction, UploadApartmentFilesAction } from './../actions/apartmentActions';
 
 import styled from 'styled-components';
+import { useFiles } from './ApartmentListComponent';
+import axios from 'axios';
 
 
 const TopContainer = styled(Box)`
@@ -28,6 +31,7 @@ const TopContainer = styled(Box)`
 const ApartmentProfile = styled(Card)`
   flex-basis: 360px;
   padding: 10px;
+  
 `;
 const BottomContainer = styled(Box)`
 
@@ -35,8 +39,9 @@ const BottomContainer = styled(Box)`
 
 const ApartmentPictureWrapper = styled(Card)`
   padding: 10px;
-  display: flex;
   flex:1;
+  display: flex;
+  flex-flow: column;
 `;
 
 
@@ -53,8 +58,14 @@ flex-basis: 350px;
 padding: 10px;
 `;
 
-
-
+const AddPictureContainer = styled(Box)`
+  flex: 1;
+`;
+const AddPictureTitle = styled(Box)`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
 export const ApartmentDetailComponent = () => {
   const { apartment, error } = useSelector((state: RootState) => state.apartmentDetail);
 
@@ -63,6 +74,15 @@ export const ApartmentDetailComponent = () => {
   const dispatch = useDispatch();
   const [curApartmentDescription, setCurApartmentDescription] = useState<any>(apartment?.description);  
   
+  const {upload, files, inputData, preloadedImages}= useFiles();
+
+  const handleUpload=()=>{
+   
+    if(!apartment){
+      return;
+    }
+    dispatch(UploadApartmentFilesAction({id:apartment.id, files}));
+  }
   const handleChangeDescription=()=>{
     if(!apartment){
       return;
@@ -76,12 +96,14 @@ export const ApartmentDetailComponent = () => {
     dispatch(GetApartmentByIdAction(+apartmentId));
   }, [dispatch, apartmentId])
 
+
   if (error) {
     return <Alert severity='error'>{error.message}</Alert>
   }
   if (!apartment) {
     return null;
   }
+
   return (
     <div>
       <ApartmentWrapper>
@@ -123,11 +145,30 @@ export const ApartmentDetailComponent = () => {
               </Box>
             </ApartmentProfile>
             <ApartmentPictureWrapper>
-              <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>Фотографии</Typography>
-              {/* TODO: список фотографий */}
-              <Box></Box>
-              <Box></Box>
-              <Box></Box>
+             <AddPictureContainer >
+              <AddPictureTitle >
+                <Box>
+                <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>Фотографии</Typography>
+                </Box>
+                <Box>
+                  <Box>
+                    <input {...inputData()}/>
+                  </Box>
+                <Button onClick={(e)=>{
+                  upload(e);
+                }}>Добавить фотографии</Button>
+                </Box>
+              </AddPictureTitle>
+              <Box style={{display:'flex'}}>
+                {preloadedImages.map((filePath)=>{
+                  return <Box style={{width:'100px', height:'100px', display:'flex', gap:'6px'}} 
+                  key={filePath}><img style={{flex:'1'}} alt="квартира" src={filePath}/></Box>
+                })}
+              </Box>
+              </AddPictureContainer>
+              <Button  onClick={()=>handleUpload()} color="success" variant="contained" disabled={files.length===0}>
+                Загрузить
+              </Button>
             </ApartmentPictureWrapper>
           </TopContainer>
           <BottomContainer>

@@ -31,7 +31,6 @@ export class CreateCharDto {
         return JSON.stringify(this.charValue);
       }
     }
-   
     return this.charValue;
   }
 

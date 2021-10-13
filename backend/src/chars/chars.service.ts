@@ -3,6 +3,7 @@ import { InjectConnection } from 'nest-knexjs';
 import { Knex } from 'knex';
 import { charToDto } from './dto/char.dto';
 import { CreateCharDto } from './dto/create-char.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class CharsService {

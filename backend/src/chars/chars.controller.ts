@@ -9,7 +9,6 @@ export class CharsController {
 
   @Get('/')
   async show(@Query('charKeyName') charKeyName: string){
-
     return this.charsService.findAll(charKeyName);
   }
   @Post('/create')

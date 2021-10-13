@@ -64,6 +64,8 @@ export const CharBoardComponent = () => {
   const dispatch = useDispatch();
 
   const createChar=()=>{
+
+    
     dispatch(CreateCharAction({
       keyName: charsData.keyName,
       charVariant,
@@ -97,12 +99,12 @@ export const CharBoardComponent = () => {
             label="Название характеристики" variant="outlined" />
           <Box>
             {chars.map((char) => {
-              return <MenuItem key={char.key_name}
+              return <MenuItem key={char.charId}
                 onClick={(e) => {
                   dispatch(resetChars());
-                  setCharsData((prevData:any)=>({...prevData, keyName: char.key_name, isReseted: true }));
+                  setCharsData((prevData:any)=>({...prevData, keyName: char.keyName, isReseted: true }));
                 }}
-              >{char.key_name}</MenuItem>
+              >{char.keyName}</MenuItem>
             })}
           </Box>
         </Box>

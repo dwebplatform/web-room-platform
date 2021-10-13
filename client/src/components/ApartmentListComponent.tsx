@@ -5,6 +5,42 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import axios from "axios";
 
+export function useFiles(){
+  const fileRef =  useRef<HTMLInputElement|null>();
+  const [files, setFiles] = useState<any[]>([]);
+  const [preloadedImages, setPreloadedImages] = useState<string[]>([]);
+  function inputData(){
+    return {
+      type:"file",
+      hidden: true,
+      ref:(ref:any)=>{fileRef.current=ref},
+      onChange:(e:React.ChangeEvent<HTMLInputElement>)=>{
+        if(!e.target.files){
+          return;
+        }
+        let file = e.target.files[0];
+        if(file){
+          let filePath = URL.createObjectURL(file);
+          setPreloadedImages((prevImages)=>{
+            return [...prevImages,filePath];
+          });
+          setFiles((prevFiles)=>{
+            return [...prevFiles, file];
+          })
+        }
+      }
+    }
+  }
+  return {inputData, preloadedImages,files,
+    upload:(e:any)=>{
+      e.preventDefault();
+      if(!fileRef?.current){
+        return;
+      }
+      fileRef.current.click(); 
+    }
+  };
+}
 export const ApartmentListComponent=()=>{
   const fileRef =  useRef<HTMLInputElement|null>();
   const [files, setFiles] = useState<any[]>([]);
@@ -17,7 +53,7 @@ export const ApartmentListComponent=()=>{
       }
       fileRef.current.click();
   } 
-   const handleAddFile= async()=>{
+   const handleAddFile = async()=>{
     const formData = new FormData();
     formData.append('photo',files[0]);
    const response =  await axios.post('http://localhost:5000/apartments/upload',formData);

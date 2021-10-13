@@ -1,6 +1,6 @@
 export interface IChar {
   charId: number;
-  key_name: string;
+  keyName: string;
   type: string;
   ARRAY_VALUE: string[]|null;
   STRING_VALUE: string|null;

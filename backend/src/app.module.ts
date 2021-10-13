@@ -15,7 +15,6 @@ import { TestworkModule } from './testwork/testwork.module';
 
 @Module({
   imports: [
-  
     KnexModule.forRoot({
       config: {
         client: 'mysql',

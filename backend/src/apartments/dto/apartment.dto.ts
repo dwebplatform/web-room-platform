@@ -1,7 +1,12 @@
 
-export interface Char {
+
+import { Expose } from 'class-transformer';
+export class Char {
+  @Expose()
   charId: number;
-  key_name: string;
+  @Expose()
+  keyName: string;
+  @Expose()
   apartmentId: number;
 }
 
@@ -22,7 +27,9 @@ export function apartmentToDto(apartment: any): ApartmentDto {
       images: JSON.parse(apartment.images),
       chars: [ ...apartment.chars.map((c:any)=>{
         c.ARRAY_VALUE = JSON.parse(c.ARRAY_VALUE);
-        return c
+        c.keyName = c.key_name;
+        delete c.key_name;
+        return c;
       }),
     ],
     }
