@@ -22,7 +22,8 @@ export class ApartmentsController {
 	@UseInterceptors(FileInterceptor("photo", { storage}))
   	uploadSingle(@UploadedFile() file) {
 
-    let imagePath  =`${file.destination.split('/')[file.destination.length-1]}/${file.filename}`;
+    let imgArr = file.destination.split('/');
+    let imagePath  =`${imgArr[imgArr.length-1]}/${file.filename}`;
     return {
       imagePath,
     	statusCode:"200",
