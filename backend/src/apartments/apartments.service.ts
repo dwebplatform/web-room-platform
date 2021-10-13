@@ -3,12 +3,21 @@ import { InjectConnection } from 'nest-knexjs';
 import { Knex } from 'knex';
 import { apartmentToDto } from './dto/apartment.dto';
 import { UpdateApartmentDescriptionDto } from './dto/update-apartment-description.dto';
+import { SaveImageApartmentDto } from './dto/save-apartment.dto';
 
 
 @Injectable()
 export class ApartmentsService {
 	constructor(@InjectConnection() private readonly knex: Knex) {}
 	
+	async saveImages(saveImageApartmentDto:SaveImageApartmentDto){
+		try{
+			let updatedId =  await this.knex.table('apartments').update({images:saveImageApartmentDto.images}).where({id:saveImageApartmentDto.id});
+			return await this.knex.table('apartments').where('id',updatedId).first();
+		} catch(e){
+		}
+	}
+
 	async updateDescription(updateApartmentDescriptionDto:UpdateApartmentDescriptionDto){
 		const apartmentId = await this.knex('apartments').where({id: updateApartmentDescriptionDto.id}).update({
 			description: updateApartmentDescriptionDto.description

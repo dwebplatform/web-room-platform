@@ -25,6 +25,7 @@ export function apartmentToDto(apartment: any): ApartmentDto {
       price: apartment.price,
       description: apartment.description,
       images: JSON.parse(apartment.images),
+      
       chars: [ ...apartment.chars.map((c:any)=>{
         c.ARRAY_VALUE = JSON.parse(c.ARRAY_VALUE);
         c.keyName = c.key_name;

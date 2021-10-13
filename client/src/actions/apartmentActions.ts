@@ -41,7 +41,7 @@ export const UploadApartmentFilesAction= createAsyncThunk(
 async( {id, files }:{id:number,files: any[]})=>{
 
   let imagesResponses = await getPathsOfLoadedFiles(files);
-  return await axios.post('/save-image-to-apartment',{id, images: imagesResponses.map(({data}:{data:any})=>data.pathToFile)});
+  return await axios.post(`${apiUrl}/apartments/save-image-to-apartment`,{id, images: JSON.stringify( imagesResponses.map(({data}:{data:any})=>data.pathToFile))});
   //TODO: создать роут обрабатывающий загрузку файлов
   /**
    * 1. роут получает список файлов

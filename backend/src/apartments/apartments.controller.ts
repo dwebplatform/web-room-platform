@@ -1,7 +1,8 @@
-import { Controller,Body,Post,Get,Param, UseInterceptors,  UploadedFile } from '@nestjs/common';
+import { Controller,Body,Post,Get,Param, UseInterceptors,  UploadedFile, HttpException, HttpStatus } from '@nestjs/common';
 import { FileInterceptor } from "@nestjs/platform-express";
 
 import {ApartmentsService} from './apartments.service';
+import { SaveImageApartmentDto } from './dto/save-apartment.dto';
 import { UpdateApartmentDescriptionDto } from './dto/update-apartment-description.dto';
 
 
@@ -35,5 +36,13 @@ export class ApartmentsController {
 		return await this.apartmentsService.updateDescription(updateApartmentDescriptionDto);
 	}
 
+  @Post('/save-images-to-apartment')
+  async saveImagesToApartment(@Body() saveImageApartmentDto: SaveImageApartmentDto ){
+    try{
+      return await this.apartmentsService.saveImages(saveImageApartmentDto);
+    } catch(err){
+      throw new HttpException('Не удалось сохранить изображения для данной квартиры', HttpStatus.BAD_REQUEST);
+    }
+  }
 	
 }
