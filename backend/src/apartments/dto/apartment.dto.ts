@@ -1,6 +1,9 @@
 
 
 import { Expose } from 'class-transformer';
+
+
+
 export class Char {
   @Expose()
   charId: number;

@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { CreateCharAction, GetCharsAction } from '../actions/charActions';
 
 import styled from 'styled-components';
@@ -36,6 +37,15 @@ enum CHAR_VARIANTS {
 };
 
 export const CharBoardComponent = () => {
+
+  
+  const [isapartmentPicked,setApartmentPicked ] = useState(false);
+
+  const [currentApartment, setCurrentApartment] = useState<null|any>(
+  localStorage.getItem('apartment') 
+    // @ts-ignore
+    ? JSON.parse( localStorage.getItem('apartment') )
+  : null);
 
   const [charsData, setCharsData] = useState<any>({
     keyName: '',
@@ -64,12 +74,12 @@ export const CharBoardComponent = () => {
   const dispatch = useDispatch();
 
   const createChar=()=>{
-
     
     dispatch(CreateCharAction({
       keyName: charsData.keyName,
       charVariant,
-      charValue: getValue(charVariant)
+      charValue: getValue(charVariant),
+      apartmentId: isapartmentPicked ? currentApartment.id : null
     }));
 
   }
@@ -92,7 +102,7 @@ export const CharBoardComponent = () => {
   return <CharBoardWrapper>
     <Card style={{ padding: '10px' }}>
       <Box style={{ display: 'flex', flexFlow: 'column', gap: '1rem' }}>
-        <Box>
+        <Box style={{position:'relative'}}>
           <TextField
             value={charsData.keyName}
             onChange={handleKeyNameChage}
@@ -109,6 +119,20 @@ export const CharBoardComponent = () => {
           </Box>
         </Box>
         <Box>
+             <Box style={{
+               marginLeft:'-10px',
+               display:'flex', alignItems:'center'}}>
+               <Box>
+                <Checkbox value={isapartmentPicked} onChange={(e:any)=>{
+                  setApartmentPicked(e.target.value)
+                }}  />
+               </Box>
+               <Box>
+                 <Typography>
+                 Прикрепить к предыдущей квартире ?
+                 </Typography>
+               </Box>
+               </Box>
            <FormControl component="fieldset">
             <FormLabel component="legend">Отображение характеристики</FormLabel>
             <RadioGroup

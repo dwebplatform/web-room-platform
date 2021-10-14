@@ -13,9 +13,13 @@ export class ApartmentsController {
 
 	constructor(private readonly apartmentsService: ApartmentsService) {}
 
+	@Get('/show/all')
+	async showAll(){
+		return this.apartmentsService.findAll();
+	}
 	@Get('/show/:apartmentId')
 	async show(@Param('apartmentId') apartmentId:string){
-		// по id находии
+		// по id находим
 		return this.apartmentsService.findOne(apartmentId);
 	}
 
@@ -39,7 +43,6 @@ export class ApartmentsController {
   @Post('/save-images-to-apartment')
   async saveImagesToApartment(@Body() saveImageApartmentDto: SaveImageApartmentDto ){
       return await this.apartmentsService.saveImages(saveImageApartmentDto);
-    
   }
 	
 }

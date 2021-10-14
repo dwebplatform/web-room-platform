@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query,Body } from '@nestjs/common';
+import { Controller, Get, Post, Query,Body, Param } from '@nestjs/common';
 import { CharsService } from './chars.service';
 import { CreateCharDto } from './dto/create-char.dto';
 
@@ -12,7 +12,15 @@ export class CharsController {
     return this.charsService.findAll(charKeyName);
   }
   @Post('/create')
-  async create(@Body() createCharDto:CreateCharDto){
+  async create(@Body() createCharDto: CreateCharDto){
     return this.charsService.create(createCharDto);
+  }
+  // /chars/${data.charId}/add-apartment/${apartmentId}
+  @Post('/:charId/add-apartment/:apartmentId')
+  addApartmentToChar(
+    @Param('charId') charId: string,
+    @Param('apartmentId') apartmentId: string){
+      return this.charsService.addApartment(+charId,+apartmentId);
+      
   }
 }

@@ -70,6 +70,20 @@ export const ApartmentDetailComponent = () => {
   const { apartment, error } = useSelector((state: RootState) => state.apartmentDetail);
 
   const { apartmentId } = useParams<{ apartmentId: string }>();
+  useEffect(()=>{
+    if(!apartment){
+      return;
+    }
+    let cashedApartment = JSON.parse(localStorage.getItem('apartment')||"{}");
+    if("id" in cashedApartment){
+        if(cashedApartment.id !== apartment.id){
+          localStorage.setItem('apartment', JSON.stringify(apartment));
+        }
+    } else {
+      localStorage.setItem('apartment', JSON.stringify(apartment));
+    }
+  },[apartment, apartmentId]);
+
   const history = useHistory();
   const dispatch = useDispatch();
   const [curApartmentDescription, setCurApartmentDescription] = useState<any>(apartment?.description);  

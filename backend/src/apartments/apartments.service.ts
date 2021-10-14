@@ -9,6 +9,7 @@ import { SaveImageApartmentDto } from './dto/save-apartment.dto';
 @Injectable()
 export class ApartmentsService {
 	constructor(@InjectConnection() private readonly knex: Knex) {}
+
 	
 	async saveImages(saveImageApartmentDto:SaveImageApartmentDto){
 		try{
@@ -16,7 +17,6 @@ export class ApartmentsService {
 			return await this.knex.table('apartments').where('id',updatedId).first();
 		} catch(e){
 			throw new HttpException('Не удалось обновить изображения для данной квартиры', HttpStatus.BAD_REQUEST);
-			
 		}
 	}
 
@@ -26,6 +26,15 @@ export class ApartmentsService {
 		});
 		const apartment =  await this.knex('apartments').where({id:apartmentId}).first();
 		return {id:apartment.id, description: apartment.description};
+	}
+
+	async findAll(){
+		return (await this.knex.select('*').from('apartments')).map((apartment:any)=>{
+			return {
+				...apartment,
+				images: JSON.parse(apartment.images)
+			}
+		});	
 	}
 
 	async findOne(apartmentId: string){

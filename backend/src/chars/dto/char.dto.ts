@@ -7,7 +7,6 @@ export class CharDto {
   @Expose()
   type: string;
 
-
   @Expose()
   charId: number;
   

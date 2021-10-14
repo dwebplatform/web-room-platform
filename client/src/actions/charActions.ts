@@ -6,16 +6,26 @@ import { apiUrl } from "../configs";
 import { IChar } from './../interfaces/apartment-interface';
 
 
-
 export const CreateCharAction = createAsyncThunk(
   "chars/createChar",
-  async({keyName, charVariant,charValue} : {keyName: string, charVariant: string,charValue: string| string[]| boolean})=>{
-
-    return await axios.post(`${apiUrl}/chars/create`,{
+  async({keyName, charVariant,charValue ,apartmentId} : {keyName: string, charVariant: string,charValue: string| string[]| boolean , apartmentId?: null|number})=>{
+    const {data} =  await axios.post(`${apiUrl}/chars/create`,{
         keyName, 
         charVariant,
         charValue
-    });
+    }) as AxiosResponse<IChar>;
+    console.log(apartmentId);
+    if(apartmentId !== null){
+
+      try{
+        let subResponse = await axios.post(`${apiUrl}/chars/${data.charId}/add-apartment/${apartmentId}`);
+        console.log(subResponse.data);
+
+      } catch(err){
+        console.error("Error:",err);
+      }
+    }
+    return data;
   }
 );
 export const GetCharsAction = createAsyncThunk(
