@@ -39,12 +39,11 @@ enum CHAR_VARIANTS {
 export const CharBoardComponent = () => {
 
   
-  const [isapartmentPicked,setApartmentPicked ] = useState(false);
+  const [isApartmentPicked,setApartmentPicked ] = useState(false);
 
   const [currentApartment, setCurrentApartment] = useState<null|any>(
   localStorage.getItem('apartment') 
-    // @ts-ignore
-    ? JSON.parse( localStorage.getItem('apartment') )
+    ? JSON.parse( localStorage.getItem('apartment')||"{}" )
   : null);
 
   const [charsData, setCharsData] = useState<any>({
@@ -59,6 +58,7 @@ export const CharBoardComponent = () => {
   const [charArrayValue, setCharArrayValue] = useState<string[]>([]);
 
   const [charArrayElValue, setCharArrayElValue] = useState<string>('');
+  
   function getValue(type:CHAR_VARIANTS):any{
     if(type === CHAR_VARIANTS.ARRAY_VALUE){
       return charArrayValue;
@@ -70,6 +70,7 @@ export const CharBoardComponent = () => {
       return charTextValue;
     }
   }
+  
   const { chars } = useSelector((state: RootState) => state.charEdit);
   const dispatch = useDispatch();
 
@@ -79,7 +80,7 @@ export const CharBoardComponent = () => {
       keyName: charsData.keyName,
       charVariant,
       charValue: getValue(charVariant),
-      apartmentId: isapartmentPicked ? currentApartment.id : null
+      apartmentId: isApartmentPicked ? currentApartment.id : null
     }));
 
   }
@@ -123,7 +124,7 @@ export const CharBoardComponent = () => {
                marginLeft:'-10px',
                display:'flex', alignItems:'center'}}>
                <Box>
-                <Checkbox value={isapartmentPicked} onChange={(e:any)=>{
+                <Checkbox value={isApartmentPicked} onChange={(e:any)=>{
                   setApartmentPicked(e.target.value)
                 }}  />
                </Box>

@@ -10,7 +10,6 @@ import TextField from "@mui/material/TextField";
 import Alert from '@mui/material/Alert';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 
 import {CharListComponent} from './CharListComponent';
 
@@ -19,7 +18,6 @@ import { ChangeApartmentDescription, GetApartmentByIdAction, UploadApartmentFile
 
 import styled from 'styled-components';
 import { useFiles } from './ApartmentListComponent';
-import axios from 'axios';
 
 
 const TopContainer = styled(Box)`
@@ -66,6 +64,29 @@ const AddPictureTitle = styled(Box)`
   align-items: center;
   gap: 1rem;
 `;
+
+const ImageContainer = styled(Box)`
+  display: grid;
+  grid-template-columns: repeat(4,200px);
+  grid-template-rows: repeat(4,1fr);
+  width: 100%;
+  max-width: 800px;
+  grid-gap: 1rem;
+
+`;
+const ImageItem = styled(Box)`
+  padding-bottom: 56.25%;
+  position:relative;
+
+`;
+const Image = styled.img`
+  position:absolute;
+  top:0;
+  left:0;
+  objectFit:cover;
+  height:100%;
+  width:100%;
+`
 export const ApartmentDetailComponent = () => {
   const { apartment, error } = useSelector((state: RootState) => state.apartmentDetail);
 
@@ -117,6 +138,7 @@ export const ApartmentDetailComponent = () => {
   if (!apartment) {
     return null;
   }
+
 
   return (
     <div>
@@ -203,7 +225,10 @@ export const ApartmentDetailComponent = () => {
                 <CharListComponent chars={apartment.chars}/>
               </CardContent>
             </Card>
+          
           </BottomContainer>
+            
+
         </LeftContainer>
         <SubWayContainer>
           <Typography>Ближайшие метро</Typography>
@@ -211,7 +236,38 @@ export const ApartmentDetailComponent = () => {
 
           </Box>
         </SubWayContainer>
+        
       </ApartmentWrapper>
+      <Card style={{width:'100%'}}>
+              <ImageContainer>
+                {apartment.images.map((imagePath:any,index:number)=>{
+                return <ImageItem key={index} >
+                  <Image 
+                    src={'http://localhost:5000/'+imagePath}
+                  />
+                  </ImageItem>
+                })}
+                {/* <ImageItem >
+                <Image 
+                src="https://random.imagecdn.app/500/150"/>
+                </ImageItem>
+                <ImageItem >
+                  <Image src="https://random.imagecdn.app/500/150"/>
+                </ImageItem>
+                <ImageItem >
+                  <Image src="https://random.imagecdn.app/500/150"/>
+                </ImageItem>
+                <ImageItem >
+                  <Image src="https://random.imagecdn.app/500/150"/>
+                </ImageItem>
+                <ImageItem >
+                  <Image src="https://random.imagecdn.app/500/150"/>
+                </ImageItem>
+                <ImageItem >
+                  <Image src="https://random.imagecdn.app/500/150"/>
+                </ImageItem> */}
+              </ImageContainer>
+            </Card>
     </div>
   );
 }
