@@ -4,12 +4,13 @@ import axios, { AxiosResponse } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiUrl } from "../configs";
 import { IChar } from './../interfaces/apartment-interface';
+import { customAxios } from "../api/customAxios";
 
 
 export const CreateCharAction = createAsyncThunk(
   "chars/createChar",
   async({keyName, charVariant,charValue ,apartmentId} : {keyName: string, charVariant: string,charValue: string| string[]| boolean , apartmentId?: null|number})=>{
-    const {data} =  await axios.post(`${apiUrl}/chars/create`,{
+    const {data} =  await customAxios.post(`${apiUrl}/chars/create`,{
         keyName, 
         charVariant,
         charValue
@@ -18,7 +19,7 @@ export const CreateCharAction = createAsyncThunk(
     if(apartmentId !== null){
 
       try{
-        let subResponse = await axios.post(`${apiUrl}/chars/${data.charId}/add-apartment/${apartmentId}`);
+        let subResponse = await customAxios.post(`${apiUrl}/chars/${data.charId}/add-apartment/${apartmentId}`);
         console.log(subResponse.data);
 
       } catch(err){
@@ -35,7 +36,7 @@ export const GetCharsAction = createAsyncThunk(
     if(charKeyName){
       reqStr+=`?charKeyName=${charKeyName}`;
     }
-    const resp =  await axios.get(reqStr) as AxiosResponse<IChar[]>;
+    const resp =  await customAxios.get(reqStr) as AxiosResponse<IChar[]>;
     
     return resp;
   });

@@ -9,21 +9,27 @@ import { generateToken } from './tokenUtils/generateToken';
 @Controller('auth')
 export class AuthController {
 
-  constructor(private  readonly authService: AuthService,@InjectConnection() private readonly knex: Knex ){}
+  constructor( private  readonly authService: AuthService,@InjectConnection() private readonly knex: Knex ){}
+
+
 
   // get accessToken by refreshToken
   @Post('/refresh')
   async refresh(@Body() tokenData: {refreshToken: string, email: string}){
     const [user] = await this.knex('users').select('id','email').where({email:tokenData.email});
-    if(!user){
+    if( !user) {
       throw new HttpException('не зарегистрированный пользователь', HttpStatus.BAD_REQUEST);
     }
-    console.log(tokenData)
     const availableTokens = await this.authService.tokensForUser(tokenData.email, tokenData.refreshToken);
     // create new Token,  
     const token  = await generateToken(user.id, user.email,1*30);
     const refreshToken = await generateToken(user.id,user.email, 24*60*60);
-
+    
+     // insert refreshToken to database
+     const [refreshTokenId] = await this.knex('user_tokens').insert({
+      value:refreshToken,
+      user_id: user.id
+    });
     return {
       accessToken: token,
       refreshToken,
@@ -33,7 +39,7 @@ export class AuthController {
   @Post('/signin')
   async signin(@Body() createUser: CreateUserDto){
     // userService
-      const id = await  this.authService.signin(createUser);
+    const id = await  this.authService.signin(createUser);
     const token  = await generateToken(id, createUser.email,1*30);
     const refreshToken = await generateToken(id, randomBytes(12).toString('hex'), 24*60*60);
     // insert refreshToken to database

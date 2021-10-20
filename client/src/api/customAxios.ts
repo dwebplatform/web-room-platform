@@ -35,7 +35,6 @@ axiosInstance.interceptors.response.use( (response)=>{
     return axios.request(error.config);
   }
     return Promise.reject(error);
- 
 });
 axiosInstance.interceptors.request.use(
  async (config:AxiosRequestConfig<any>|null)=>{

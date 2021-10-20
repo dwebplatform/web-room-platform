@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import axios from "axios";
+import { customAxios } from "../api/customAxios";
 
 export function useFiles(){
   const fileRef =  useRef<HTMLInputElement|null>();
@@ -56,7 +57,7 @@ export const ApartmentListComponent=()=>{
    const handleAddFile = async()=>{
     const formData = new FormData();
     formData.append('photo',files[0]);
-   const response =  await axios.post('http://localhost:5000/apartments/upload',formData);
+   const response =  await customAxios.post('http://localhost:5000/apartments/upload',formData);
    console.log(response)
   }
   return (<div>

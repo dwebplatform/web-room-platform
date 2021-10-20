@@ -6,7 +6,7 @@ export class TokenExpiredError extends Error {
 	}
 
 }
-export async function verifyUser(token:string){
+export async function verifyUser(token:string):Promise<any>{
 	return new Promise((resolve,reject)=>{
 		jwt.verify(token,'kitty_missy',(err, decoded)=>{
 			if(err){

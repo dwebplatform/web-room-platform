@@ -13,7 +13,7 @@ export const BearerCheck = createParamDecorator(
      return result;
     } catch(err){
       if(err instanceof TokenExpiredError){
-         throw new HttpException('Время токена истекло',HttpStatus.UNAUTHORIZED); 
+         throw new HttpException('Время токена истекло', HttpStatus.UNAUTHORIZED); 
       }
     }
   }

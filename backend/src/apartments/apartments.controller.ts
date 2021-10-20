@@ -1,5 +1,6 @@
-import { Controller,Headers,Body,Post,Get,Param, UseInterceptors,  UploadedFile, HttpException, HttpStatus, UnauthorizedException, Req, Res } from '@nestjs/common';
+import { Controller,Headers,Body,Post,Get,Param, UseInterceptors,  UploadedFile, HttpException, HttpStatus, UnauthorizedException, Req, Res, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from "@nestjs/platform-express";
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 import {ApartmentsService} from './apartments.service';
 import { BearerCheck } from './decorators/BearerDecorator';
@@ -85,11 +86,13 @@ export class ApartmentsController {
 	}
 	
 
+	//TODO: добавить AuthGard, чтобы было очевидней, что это protected route
 	@Post('/get-protected-data')
-	getProtDataWithDecorator(@BearerCheck() bearer:string){
-	
+	@UseGuards(AdminGuard)
+	getProtDataWithDecorator(@Req() req){
 		return {
 			status:'ok',
+			userId: req.userId,
 			message:[{id:1, name:'Vasia'},{id:2, name:'Jason'},{id:3, name:'Semon'}]
 		}
 	}

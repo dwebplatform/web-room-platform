@@ -13,6 +13,7 @@ export const TestInterceptorComponent = () => {
   const getData = async () => {
     const { data } = await customAxios.post(`${apiUrl}/apartments/get-protected-data`)
     console.log(data);
+    console.log("GET DATA")
   }
 
   const getCookie = async () => {

@@ -12,6 +12,7 @@ export class AuthService {
   async tokensForUser(email: string,refreshToken:string ){
     const [user] = await this.knex('users').select('id').where({email});
     const allTokens = await this.knex('user_tokens').select('value').where({user_id:user.id});
+    console.log(allTokens);
     let isTokenBelongToUser = false;
      for(let tokenObj of allTokens){
       if(tokenObj.value === refreshToken){
@@ -19,14 +20,17 @@ export class AuthService {
         break;
       }
     }
+    //TODO: check refresh token from cookies instead of incoming
     if(!isTokenBelongToUser){
       // пользователь  с таким токеном не зарегистрирован:
-      throw new HttpException('не зарегистрированный пользователь', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('не зарегистрированный пользователь реф', HttpStatus.UNAUTHORIZED);
     }
     return allTokens;
   }
   async signin( user: CreateUserDto ){
     
+    // before insert check if user with this email exist
+
     const [ id ] = await this.knex('users').insert({
       email:user.email,
       password: await hash(user.password) // hashed password,
