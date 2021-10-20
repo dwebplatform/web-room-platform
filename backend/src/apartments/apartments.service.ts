@@ -9,8 +9,16 @@ import { SaveImageApartmentDto } from './dto/save-apartment.dto';
 @Injectable()
 export class ApartmentsService {
 	constructor(@InjectConnection() private readonly knex: Knex) {}
-
 	
+	async grouping(){
+
+	const neededCharsIds = this.knex
+	.select('ac.characteristic_id as id')
+	.from('apartments_characteristics as ac')
+	.where('ac.apartment_id',3);
+	
+	return 	await this.knex.select().from('characteristics as c').whereIn('c.id',neededCharsIds);
+	}
 	async saveImages(saveImageApartmentDto:SaveImageApartmentDto){
 		try{
 			let updatedId =  await this.knex.table('apartments').update({images:saveImageApartmentDto.insertedImages}).where({id:saveImageApartmentDto.id});

@@ -21,11 +21,13 @@ export const charEditSlice = createSlice({
   extraReducers: (builder) => {
 
     builder.addCase(CreateCharAction.fulfilled,(state,{payload})=>{
-      console.log('CREATED NEW CHAR');
+      //TODO: сделать нормальный modal window
+      alert('Характеристика создана успешно');
     });
 
     builder.addCase(CreateCharAction.rejected, (state,{payload})=>{
-      console.log('CREATED NEW CHAR ERROR');
+      //TODO: сделать нормальный modal window
+      alert(' произошла ошибка при создании характеристики ');
     });
     
     builder.addCase(GetCharsAction.fulfilled,(state,{payload})=>{

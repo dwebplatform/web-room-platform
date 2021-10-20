@@ -247,25 +247,7 @@ export const ApartmentDetailComponent = () => {
                   />
                   </ImageItem>
                 })}
-                {/* <ImageItem >
-                <Image 
-                src="https://random.imagecdn.app/500/150"/>
-                </ImageItem>
-                <ImageItem >
-                  <Image src="https://random.imagecdn.app/500/150"/>
-                </ImageItem>
-                <ImageItem >
-                  <Image src="https://random.imagecdn.app/500/150"/>
-                </ImageItem>
-                <ImageItem >
-                  <Image src="https://random.imagecdn.app/500/150"/>
-                </ImageItem>
-                <ImageItem >
-                  <Image src="https://random.imagecdn.app/500/150"/>
-                </ImageItem>
-                <ImageItem >
-                  <Image src="https://random.imagecdn.app/500/150"/>
-                </ImageItem> */}
+                
               </ImageContainer>
             </Card>
     </div>

@@ -11,6 +11,7 @@ import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module
 import { join } from 'path';
 import { CharsModule } from './chars/chars.module';
 import { TestworkModule } from './testwork/testwork.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -31,7 +32,8 @@ import { TestworkModule } from './testwork/testwork.module';
     OrdersModule,
     ApartmentsModule,
     CharsModule,
-    TestworkModule,    
+    TestworkModule,
+    AuthModule,    
     // UserModule,
   ],
   controllers: [AppController],

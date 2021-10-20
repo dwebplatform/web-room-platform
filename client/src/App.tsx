@@ -13,18 +13,23 @@ import {OrderDetailComponent} from './components/OrderDetailComponent';
 import {ApartmentListComponent} from './components/ApartmentListComponent';
 import {ApartmentDetailComponent} from './components/ApartmentDetailComponent';
 import {CharBoardComponent} from './components/CharBoardComponent';
+import { TestInterceptorComponent } from './components/TestInterceptorComponent';
 
 const MainWrapper = styled.div`
   width: 100%;
   height: 100vh;
 `;
 export function App() {
+
+  
   return (
     <Router>
     <MainWrapper >
       <Header/>
       <Switch>
-        
+        <Route path="/test-interceptors" exact={true}>
+          <TestInterceptorComponent/>
+        </Route>
       <Route path="/orders" exact={true}>
       <OrderListComponent/>
       </Route>
