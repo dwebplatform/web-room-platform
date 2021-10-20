@@ -12,7 +12,8 @@ export class OrdersModule implements NestModule  {
     consumer
       .apply(AuthMiddleware)
       .forRoutes(
-        {path: 'orders', method: RequestMethod.GET}
-        );
+        {path: 'orders', method: RequestMethod.GET},
+        {path: 'orders/:id', method: RequestMethod.GET},
+        {path:'orders/change-status' ,method: RequestMethod.POST});
   }
 }

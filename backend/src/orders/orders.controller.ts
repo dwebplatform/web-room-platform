@@ -1,4 +1,5 @@
-import { Controller,Body,Post, Get, HttpException, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Body, Post, Get, HttpException, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { UpdateOrderStatusDto } from './dto/updateorderstatus.dto';
 import { OrdersService } from './orders.service';
 
@@ -8,6 +9,7 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
   
   @Get('/:id')
+  @UseGuards(AdminGuard)
   async showOne(@Param('id') id:string){
     try{
       return await this.ordersService.findOne(id);
@@ -17,6 +19,7 @@ export class OrdersController {
   }
 
   @Post('/change-status')
+  @UseGuards(AdminGuard)
   changeStatus(@Body() updateOrderStatusDto:UpdateOrderStatusDto){
     try{
       return this.ordersService.updateStatus(updateOrderStatusDto);
@@ -25,6 +28,7 @@ export class OrdersController {
     }
   }
   @Get('/')
+  @UseGuards(AdminGuard)
   async show(){
     try {
       return await this.ordersService.findAll();
